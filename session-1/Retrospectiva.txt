@@ -1,0 +1,17 @@
+ANAGRAMS
+
+- Pontos Positivos
+Todos programaram
+Reunião dos colaboradores
+Experiência com novas práticas ( TDD / gtest )
+O dojo foi divertido
+Teve pizza
+
+- Pontos Negativos
+Não foram respeitadas algumas regras do dojo (Quando o teste quebrou todos deram opinião)
+Comida no meio do dojo quebrou o ritmo
+Talvez precise de um espaço maior
+Testes já concluídos foram alterados com frequência
+Dojos apenas uma vez por semana
+! = Dojo começou tarde
+Demora ao configurar ambiente ( Makefile, web sites, etc, faltou planejamento ).
