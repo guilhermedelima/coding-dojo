@@ -1,5 +1,8 @@
 ANAGRAMS
 
+Problema retirado do site:
+http://cyber-dojo.org/
+
 - Pontos Positivos
 Todos programaram
 Reunião dos colaboradores
