@@ -1,0 +1,26 @@
+PRIME FACTORS
+
+Participantes:
+	Guilherme de Lima
+	Rafael Souza
+	José Rios
+
+
+
+Pontos Positivos:
+	Evolução do código
+	Continuidade do Dojo
+	Todos programaram	
+	TDD bem feito
+	Cumprimento da metodologia do Dojo
+	
+
+Pontos Negativos:
+	Temas repetitivos
+	Tema muito específico (Algoritmo)
+	Falta de planejamento (Escolha do tema, cerveja...)
+	Nem todos acompanharam o desenvolvimento
+	Faltou comida
+	Testes repetitivos
+	Uso da mesma linguagem (C++)
+	Dojos apenas uma vez na semana

@@ -13,7 +13,7 @@ CFLAGS=-std=c++0x -W -Wall -isystem $(GTEST_INCDIR) -isystem $(GMOCK_INCDIR) -I$
 DLIBS=-pthread
 SLIBS=$(LIBDIR)/libgmock.a $(LIBDIR)/libgtest.a
 
-TARGET=session_main
+TARGET=prime_main
 
 HEADER=$(foreach file, $(shell ls $(INCDIR)), $(INCDIR)/$(file))
 _OBJ=$(foreach file, $(shell ls $(SRCDIR)), $(OBJDIR)/$(file))
