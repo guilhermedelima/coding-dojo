@@ -1,46 +1,100 @@
 #include <gtest/gtest.h>
+
 #include <vector>
+#include <map>
 #include <utility>
 #include <string>
 #include <iostream>
 
 typedef std::pair< char, char > card;
 
+
+const static std::string names[] = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace" };
+static int priorityMap[128];
+const static std::string gameNames[] = {" - high card: ", " - pair"};
+
+void initializeDeck()
+{
+	priorityMap[ (int)'2' ] = 0;
+	priorityMap[ (int)'3' ] = 1;
+	priorityMap[ (int)'4' ] = 2;
+	priorityMap[ (int)'5' ] = 3;
+	priorityMap[ (int)'6' ] = 4;
+	priorityMap[ (int)'7' ] = 5;
+	priorityMap[ (int)'8' ] = 6;
+	priorityMap[ (int)'9' ] = 7;
+	priorityMap[ (int)'T' ] = 8;
+	priorityMap[ (int)'J' ] = 9;
+	priorityMap[ (int)'Q' ] = 10;
+	priorityMap[ (int)'K' ] = 11;
+	priorityMap[ (int)'A' ] = 12;
+}
+
+bool CheckPair(const std::vector< card > &blackHand)
+{
+	int count = 0;
+
+	for (unsigned int i = 0; i < blackHand.size(); ++i)
+		for( unsigned int j = i + 1; j < blackHand.size(); ++j)
+			count += blackHand[i].first == blackHand[j].first;
+
+	return count;
+}
+
+int GetGame(const std::vector< card > &blackHand)
+{
+	int game = 1;
+
+	if (CheckPair(blackHand))
+		return game;
+
+	--game;
+
+	return game;
+}
+
 std::string checkPokerRound(const std::vector< card > &blackHand, const std::vector< card > &whiteHand)
 {
-	char higherBlack = 0;
-	char higherWhite = 0;
+	int higherBlack = 0;
+	int higherWhite = 0;
 	std::string result;
-	std::vector< char > priority;
-	priority( '2', '3', '5', '6', '7', '8', '9', 'J', 'Q', 'K', 'A' );
-	std::map< char, priority > priorityMap;
-	priorityMap[ '2' ] = 0;
-	priorityMap[ '3' ] = 1;
-	priorityMap[ '4' ] = 2;
-	priorityMap[ '5' ] = 3;
-	priorityMap[ '6' ] = 4;
-	priorityMap[ '7' ] = 5;
-	priorityMap[ '8' ] = 6;
-	priorityMap[ '9' ] = 7;
-	priorityMap[ 'J' ] = 8;
-	priorityMap[ 'Q' ] = 9;
-	priorityMap[ 'K' ] = 10;
-	priorityMap[ 'A' ] = 11;
 
-	for( card c : blackHand )
+	int blackGame = GetGame(blackHand);
+	int whiteGame = GetGame(whiteHand);
+
+	if (blackGame > whiteGame)
 	{
-		higherBlack = std::max( higherBlack, c.first );
+		result += "Black Wins";
+		result += gameNames[blackGame];
 	}
-
-
-	for( card c : whiteHand )
+	else if (whiteGame > blackGame)
 	{
-		higherWhite = std::max( higherWhite, c.first );
+		result += "White Wins";
+		result += gameNames[whiteGame];
 	}
+	else
+	{
+		/*
+		 * CONTINUE:
+		 * Sort both hands and compares from last to first
+		 * which one is bigger.
+		 *
+		 * We were trying to create a lambda function because
+		 * of the vocal cards.
+		 */
+		auto cmp = []() {}
+		std::sort( blackHand.begin(), blackHand.end());
+		std::sort( whiteHand.begin(), whiteHand.end());
 
-	result.append( ( higherBlack > higherWhite ) ? "Black Wins" : "White Wins" );
-	result.append( " - high card: " );
-	result.append( 1, std::max( higherBlack, higherWhite ) );
+		for (int i = blackHand.size() - 1; i >= 0; ++i)
+			if (blackHand[i].first > whiteHand[i].first)
+			{
+				result.append( "Black Wins" );
+				result.append( " - high card: " );
+				result.append( names[ std::max( higherBlack, higherWhite ) ] );
+			}
+
+	}
 
 	return result;
 }
@@ -67,9 +121,8 @@ TEST( PokerTest, TestingHigherCardOnlyNumbersShowBlackWins )
 	ASSERT_EQ( result , checkPokerRound( blackHand, whiteHand ) );
 }
 
-TEST( PokerTest, TestingHighCardShowWhoWins )
+TEST( PokerTest, TestingHigherCardAceWinsShowCardName )
 {
-  
 	std::vector< card > blackHand;
 	std::vector< card > whiteHand;
 	
@@ -85,13 +138,57 @@ TEST( PokerTest, TestingHighCardShowWhoWins )
 	whiteHand.push_back( card( '3', 'S' ) );
 	whiteHand.push_back( card( 'Q', 'H' ) );
 	
-	std::string result = "Black Wins - high card: A";
+	std::string result = "Black Wins - high card: Ace";
 
 	ASSERT_EQ( result , checkPokerRound( blackHand, whiteHand ) );
 }
 
+TEST( PokerTest, TestingBlackHasAPairAndWins )
+{
+	std::vector< card > blackHand;
+	std::vector< card > whiteHand;
+	
+	blackHand.push_back( card( '2', 'H' ) );
+	blackHand.push_back( card( '2', 'S' ) );
+	blackHand.push_back( card( '3', 'S' ) );
+	blackHand.push_back( card( '4', 'H' ) );
+	blackHand.push_back( card( '6', 'H' ) );
+		
+	whiteHand.push_back( card( '2', 'S' ) );
+	whiteHand.push_back( card( '4', 'H' ) );
+	whiteHand.push_back( card( '8', 'S' ) );
+	whiteHand.push_back( card( '3', 'S' ) );
+	whiteHand.push_back( card( 'Q', 'H' ) );
+
+	std::string result = "Black Wins - pair";
+
+	ASSERT_EQ( result , checkPokerRound( blackHand, whiteHand ) );
+}
+
+TEST( PokerTest, TestingWhiteWinsWithTheSecondHighCard )
+{
+	std::vector< card > blackHand;
+	std::vector< card > whiteHand;
+	
+	blackHand.push_back( card( '2', 'H' ) );
+	blackHand.push_back( card( 'Q', 'S' ) );
+	blackHand.push_back( card( '6', 'H' ) );
+	blackHand.push_back( card( '3', 'S' ) );
+	blackHand.push_back( card( '4', 'H' ) );
+		
+	whiteHand.push_back( card( 'Q', 'S' ) );
+	whiteHand.push_back( card( '4', 'H' ) );
+	whiteHand.push_back( card( '8', 'S' ) );
+	whiteHand.push_back( card( '3', 'S' ) );
+	whiteHand.push_back( card( '2', 'H' ) );
+
+	std::string result = "White Wins - high card: 8";
+	ASSERT_EQ( result, checkPokerRound( blackHand, whiteHand ) );
+}
+
 int main(int argc, char* argv[])
 {
+	initializeDeck();
 	::testing::InitGoogleTest( &argc, argv );
 	return RUN_ALL_TESTS();
 }

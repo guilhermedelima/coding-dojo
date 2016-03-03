@@ -8,7 +8,7 @@ CC=g++
 GTEST_INCDIR=/opt/gtest-1.7.0/include
 GMOCK_INCDIR=/opt/gmock-1.7.0/include
 
-CFLAGS=-std=c++0x -W -Wall -isystem $(GTEST_INCDIR) -isystem $(GMOCK_INCDIR) -I$(INCDIR)
+CFLAGS=-std=c++0x -W -g -Wall -isystem $(GTEST_INCDIR) -isystem $(GMOCK_INCDIR) -I$(INCDIR)
 
 DLIBS=-pthread
 SLIBS=$(LIBDIR)/libgmock.a $(LIBDIR)/libgtest.a

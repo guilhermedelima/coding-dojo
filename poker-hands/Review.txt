@@ -1,0 +1,16 @@
+SESSAO - 2
+
+Participantes:
+	- Rafael
+	- Bernardes
+	- Jose
+
+Pros:
+	- Foi *muito* massa!
+	- Cerveja animou o pessoal (Rafael: "Que eu to fazendo" enquanto programava!)
+	- Estamos pegando mais o jeito do TDD
+	- O codigo evoluiu!
+
+Contra:
+	- Comecou tarde
+	- Faltou logistica (cerveja, comida, horario, etc.) - segunda vez que isso acontece
